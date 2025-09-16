@@ -20,9 +20,9 @@
 
 ---
 
-## 1️⃣ 使用 `venv`（Python 自带工具）
+#### 使用 `venv`（Python 自带工具）
 
-### 创建新的虚拟环境：
+##### 创建新的虚拟环境：
 
 1. 打开终端（Mac/Linux）或命令提示符（Windows）。
 2. 输入命令：
@@ -36,7 +36,7 @@ python -m venv myenv
 * `myenv` 是你新环境的名字，可以改成任何名字。
 * 命令会在当前目录下创建一个 `myenv` 文件夹，里面包含独立的 Python 和 `pip`。
 
-### 激活环境：
+##### 激活环境：
 
 * **Windows**:
 
@@ -52,13 +52,13 @@ source myenv/bin/activate
 
 激活后，你会看到命令行前面多了 `(myenv)`，表示当前在这个环境里。
 
-### 安装库：
+##### 安装库：
 
 ```bash
 pip install numpy pandas
 ```
 
-### 退出环境：
+##### 退出环境：
 
 ```bash
 deactivate
