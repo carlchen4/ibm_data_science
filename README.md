@@ -1,7 +1,7 @@
 # 机器学习笔记 / Machine Learning Notes
 
 ## 1. 基础概念 / Basics
-- 什么是机器学习 / What is Machine Learning、
+- 什么是机器学习 / What is Machine Learning. 
 - Python 和常用工具 / What is Python and its tool boxes. 
 - 机器学习 vs 统计学 / ML vs Statistics
 - 监督学习 / 无监督学习 / 强化学习 / Supervised / Unsupervised / Reinforcement Learning
