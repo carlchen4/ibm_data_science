@@ -109,6 +109,33 @@ conda env list
 conda remove -n myenv --all
 ```
 
+
+明白，你希望我解释 **`pip freeze > requirements.txt`** 的作用和用法，但不使用数字编号，我来写一个更自然的版本：
+
+---
+
+`pip freeze > requirements.txt` 是 Python 项目中常用的命令，用来记录当前环境中安装的库及其版本。
+
+`pip freeze` 会列出所有已安装的库，例如：
+
+```
+numpy==1.25.2
+pandas==2.1.0
+scikit-learn==1.2.2
+```
+
+`>` 符号会把这些输出写入文件，也就是生成一个 `requirements.txt` 文件。这个文件记录了项目所依赖的库及其版本，方便别人或自己在新的环境中复现相同的依赖。
+
+在新环境中，只需要运行：
+
+```
+pip install -r requirements.txt
+```
+
+就能自动安装文件中列出的所有库，保证环境一致。
+
+小提示：最好在虚拟环境里执行 `pip freeze`，这样生成的 `requirements.txt` 只包含项目相关的库，而不会混入系统全局库。
+
 ---
 
 ## 2️⃣ Anaconda
