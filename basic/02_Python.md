@@ -169,19 +169,3 @@ conda remove -n myenv --all
 2. 安装后，进入 **Extensions（扩展）** 搜索 `Python`，安装 Microsoft 官方插件。
 3. 可以结合 Anaconda 或 Python 解释器使用。
 
----
-
-✅ **总结**：
-
-| 工具       | 用途                         | 安装方式             |
-| -------- | -------------------------- | ---------------- |
-| Python   | 基础编程语言                     | 官方网站安装           |
-| Anaconda | Python 发行版，科学计算库 + Jupyter | 官网安装             |
-| Colab    | 在线 Python Notebook，无需安装    | 浏览器使用            |
-| VS Code  | 代码编辑器，可调试和管理项目             | 官网安装 + Python 插件 |
-
----
-
-如果你愿意，我可以帮你画一张**图示流程图**，显示从安装 Python 到在 Colab 或 Jupyter Notebook 运行代码的完整流程，非常直观。
-
-你想让我画吗？
