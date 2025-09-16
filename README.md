@@ -2,7 +2,9 @@
 
 ## 1. 基础概念 / Basics
 - 什么是机器学习 / What is Machine Learning. 
-- Python 和常用工具 / What is Python and its tool boxes. 
+- Python 和常用库 / What is Python and its libraries.
+- Hugging Face
+- Github 
 - 机器学习 vs 统计学 / ML vs Statistics
 - 监督学习 / 无监督学习 / 强化学习 / Supervised / Unsupervised / Reinforcement Learning
 - 训练集、测试集、验证集 / Train, Test, Validation Sets
