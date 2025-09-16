@@ -15,6 +15,100 @@
 
    显示版本号说明安装成功。
 
+
+在 Python 中创建新的 **虚拟环境（Environment, env）** 可以隔离不同项目的依赖库，避免冲突。下面我详细说明 **用 `venv` 和 `conda` 两种方式**创建新的环境。
+
+---
+
+## 1️⃣ 使用 `venv`（Python 自带工具）
+
+### 创建新的虚拟环境：
+
+1. 打开终端（Mac/Linux）或命令提示符（Windows）。
+2. 输入命令：
+
+```bash
+python -m venv myenv
+```
+
+这里：
+
+* `myenv` 是你新环境的名字，可以改成任何名字。
+* 命令会在当前目录下创建一个 `myenv` 文件夹，里面包含独立的 Python 和 `pip`。
+
+### 激活环境：
+
+* **Windows**:
+
+```bash
+myenv\Scripts\activate
+```
+
+* **Mac/Linux**:
+
+```bash
+source myenv/bin/activate
+```
+
+激活后，你会看到命令行前面多了 `(myenv)`，表示当前在这个环境里。
+
+### 安装库：
+
+```bash
+pip install numpy pandas
+```
+
+### 退出环境：
+
+```bash
+deactivate
+```
+
+---
+
+## 2️⃣ 使用 `conda`（Anaconda 专用）
+
+### 创建新的虚拟环境：
+
+```bash
+conda create -n myenv python=3.11
+```
+
+这里：
+
+* `myenv` 是环境名字。
+* `python=3.11` 指定 Python 版本，可根据需要改。
+
+### 激活环境：
+
+```bash
+conda activate myenv
+```
+
+### 安装库：
+
+```bash
+conda install numpy pandas
+```
+
+或者用 `pip`：
+
+```bash
+pip install matplotlib
+```
+
+### 列出环境：
+
+```bash
+conda env list
+```
+
+### 删除环境：
+
+```bash
+conda remove -n myenv --all
+```
+
 ---
 
 ## 2️⃣ Anaconda
