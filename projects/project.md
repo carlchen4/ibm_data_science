@@ -120,4 +120,6 @@
 * **预测分析 & 金融时间序列**
 * **通用数据科学案例**
 
-要不要我帮你进一步整理成一个 **表格形式（项目 | 技术 | 应用场景）**，方便快速对比？
+Reference:
+
+* ** https://www.projectpro.io/projects/data-science-projects/data-science-in-finance
