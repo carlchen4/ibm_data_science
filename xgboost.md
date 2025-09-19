@@ -50,11 +50,8 @@ $$
 
 当尝试一个划分（分成左、右两个子集 $I_L, I_R$）时，增益为：
 
-$$
-Gain = \tfrac{1}{2} \left[ \frac{(\sum_{i \in I_L} g_i)^2}{\sum_{i \in I_L} h_i + \lambda} 
-+ \frac{(\sum_{i \in I_R} g_i)^2}{\sum_{i \in I_R} h_i + \lambda}
-- \frac{(\sum_{i \in I} g_i)^2}{\sum_{i \in I} h_i + \lambda} \right] - \gamma
-$$
+增益公式是 $Gain = \tfrac{1}{2}\left[\frac{(\sum g_L)^2}{\sum h_L + \lambda} + \frac{(\sum g_R)^2}{\sum h_R + \lambda} - \frac{(\sum g)^2}{\sum h + \lambda}\right] - \gamma$。
+
 
 只要 Gain > 0，就值得分裂。
 
