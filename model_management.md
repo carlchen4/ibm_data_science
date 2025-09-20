@@ -189,3 +189,9 @@ y_pred = loaded_model.predict(X_test)
 模型保存成 `.pkl`、`.joblib` 文件后，并不会直接丢进 GitHub，而是放到 **模型仓库**（类似“图书馆”）统一管理，方便版本追踪、审核和上线。
 
 
+Reference
+
+* https://learn.microsoft.com/en-us/azure/databricks/mlflow/workspace-model-registry-example
+* 
+
+
