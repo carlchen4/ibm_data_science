@@ -132,3 +132,60 @@ y_pred = loaded_model.predict(X_test)
 
 
 -
+
+### 1. **为什么要存储模型文件（如 pickle）？**
+
+训练好的机器学习模型（例如你现在的决策树 `.pkl` 文件）需要在 **生产环境** 被复用，不可能每次都重新训练。所以主流公司都会有一个 **模型仓库（Model Registry / Model Store）** 来存储和管理这些文件。
+
+---
+
+### 2. **主流公司常用的模型存储方式**
+
+以下是一些业界常见的方案：
+
+#### 🔹 **云厂商的托管模型仓库**
+
+* **AWS S3 + SageMaker Model Registry**
+
+  * 模型二进制文件存储在 S3
+  * 使用 SageMaker 的 *Model Registry* 管理版本、审批、部署
+* **Azure ML Model Registry**
+
+  * 把 pickle/joblib 文件上传到 Azure ML 工作区
+  * 可以打标签（版本、用途、业务线），支持 CI/CD 部署到 AKS/ACI
+* **Google Cloud Vertex AI Model Registry**
+
+  * 类似，集中存储和部署
+
+👉 优点：和云端的训练/部署服务无缝集成
+👉 缺点：绑定云平台，不方便多云/本地混合部署
+
+---
+
+#### 🔹 **开源 / 第三方工具**
+
+* **MLflow Model Registry**（最常见）
+
+  * 存储在本地或云存储（S3, GCS, Azure Blob）
+  * 带有模型版本、Stage（Staging / Production / Archived）管理
+* **DVC (Data Version Control)**
+
+  * 像 Git 一样管理模型文件 + 数据
+  * 模型存放在云存储（S3, GCS, Azure Blob, MinIO 等）
+* **Weights & Biases (W\&B) Artifacts**
+
+  * 商业化平台，适合科研和实验管理
+
+---
+
+### 3. **总结**
+
+主流公司会用：
+
+* **小规模 / 本地团队** → MLflow Registry + 云存储（S3, Azure Blob）
+* **上云公司** → 用 Azure ML / SageMaker / Vertex AI 自带的 Model Registry
+* **科研型团队** → W\&B 或 DVC
+
+模型保存成 `.pkl`、`.joblib` 文件后，并不会直接丢进 GitHub，而是放到 **模型仓库**（类似“图书馆”）统一管理，方便版本追踪、审核和上线。
+
+
