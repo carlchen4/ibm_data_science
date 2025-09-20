@@ -188,6 +188,82 @@ y_pred = loaded_model.predict(X_test)
 
 模型保存成 `.pkl`、`.joblib` 文件后，并不会直接丢进 GitHub，而是放到 **模型仓库**（类似“图书馆”）统一管理，方便版本追踪、审核和上线。
 
+我读了 Microsoft 的 “Workspace Model Registry example” 文档，下面给你总结关键点 + 和你现在做信用风险模型结合起来能怎么用。
+
+---
+
+## 📚 文档关键内容总结
+
+这篇文档展示了如何在 **Azure Databricks + MLflow** 环境下使用 **Workspace Model Registry**，具体流程如下：
+
+1. **训练并记录模型（MLflow Tracking）**
+
+   * 加载数据集 → 划分训练/验证集
+   * 用 MLflow start\_run() 包裹训练过程
+   * log 参数（hyperparameters）、指标（metrics）、模型本身（artifact）
+
+2. **注册模型到 Model Registry**
+
+   * 模型训练完并记录后，用 `mlflow.register_model(...)` 把 artifact 注册到 Model Registry
+   * 给模型取名字，比如 `"power-forecasting-model"`
+
+3. **管理模型版本与阶段（stage）**
+
+   * 模型版本会有多个（Version 1, Version 2 …）
+   * 每个版本可以有不同的 **Stage**：如 “None”, “Staging”, “Production”, “Archived”
+   * 在 Staging 阶段测试，确认没问题后再 `transition` 到 Production
+
+4. **给模型版本或注册模型加描述（metadata）**
+
+   * 注册模型可以有整体描述（这个模型是做什么用的）
+   * 每个版本也可以有描述（使用了什么算法、参数、性能指标等）
+
+5. **部署／使用注册模型**
+
+   * 可以通过 MLflow API 加载特定版本或特定 stage 的模型，例如 `models:/<model_name>/Production`
+   * 在生产流程里调用这个模型做预测
+
+6. **搜索、发现、归档和删除**
+
+   * 在 Registry UI/API 可以搜索已有模型
+   * 可以把不再用的版本标记为 Archived 或删除
+
+7. **Notebook 示例 + API 示例** 的结合使用，方便在 Databricks 环境里交互式操作或生产化调用。
+
+8. **注意**：文档里也提及，Workspace Model Registry 将来可能会被 Unity Catalog 管理的 Models 功能取代，Unity Catalog 提供更强的治理 (governance)、跨 workspace 使用、数据血缘追踪等功能。 ([Microsoft Learn][1])
+
+---
+
+## 🤝 和你做信用风险模型结合起来的应用
+
+你当前有一个信用风险模型（决策树、超参数优化、指标如 AUC/Precision/Recall 等）。可以借鉴这篇文档，把你的模型部署 / 管理做得更规范。下面是具体步骤建议：
+
+---
+
+## 🔧 具体如何用这种方式改进你的信用风险模型流程
+
+| 步骤               | 内容                                                                                                                   | 用到的工具 / 方法                                                                                      |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **训练 + Logging** | 用 MLflow 开始一个 run；记录模型超参数（class\_weight，max\_depth，min\_samples\_leaf 等）、记录训练集/验证集上的各种指标（AUC, Recall, Precision, F1） | `mlflow.start_run()`, `mlflow.log_param()`, `mlflow.log_metric()`, `mlflow.sklearn.log_model()` |
+| **注册模型**         | 训练完模型后，把模型 artifact 注册到 MLflow Model Registry，给模型一个易识别的名字，比如 “CreditRiskDecisionTree”                                | `mlflow.register_model(...)`                                                                    |
+| **版本管理**         | 如果你改了超参数 / 加了新特征 /用新数据重训 → 生成新版本，比如 Version 2。保留旧版本作为对比。                                                             | Model Registry 的版本功能                                                                            |
+| **阶段(stage)管理**  | 每个版本可以标记阶段：开发 / 测试 / 投产（Production） / 归档（Archived）                                                                   | `MlflowClient.transition_model_version_stage(...)`                                              |
+| **添加元数据**        | 给模型版本写说明，比如“在这个版本里用了 class\_weight=balanced, max\_depth=7；在 test set 上 AUC=0.73, Recall=0.66；漏掉客户多少；误判率多少”           | `mlflow.register_model` + `mlflowClient.update_model_version(...)`                              |
+| **部署 / 使用**      | 在业务系统里（审批系统 /监控系统）载入目前处于 Production 阶段的模型，用于新的客户数据预测违约概率                                                             | `mlflow.pyfunc.load_model("models:/CreditRiskDecisionTree/Production")`                         |
+| **监控 & 回测**      | 定期用最新数据评估当前生产模型的指标（AUC, Recall etc.）；如果表现下降，重训或切换到新版本                                                                | MLflow 或其他监控系统                                                                                  |
+| **合规 /审计**       | 保存训练数据时间、feature 的定义、版本历史，这样日后监管审查或者内部风控团队能追踪模型的源起                                                                   | 模型仓库 + 模型版本描述 + 训练数据记录 + 参数记录                                                                   |
+
+---
+
+## ⚠️ 注意事项 /限制
+
+* **Workspace Model Registry 将来可能弃用** → 如果你用的是最新的 Databricks + Unity Catalog，可能要直接用 Models in Unity Catalog。 ([Microsoft Learn][1])
+* **数据隐私 /合规性**：训练数据、敏感特征要按照合规政策处理
+* **版本冲突 /依赖变化**：训练环境（Python 版本 / library 版本）要被记录下来
+
+[1]: https://learn.microsoft.com/en-us/azure/databricks/mlflow/workspace-model-registry-example "Workspace Model Registry example - Azure Databricks | Microsoft Learn"
+
+
 
 Reference
 
