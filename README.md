@@ -18,6 +18,12 @@
   - AUC
   - MSE 均方误差
   - R² 决定系数
+  - KS（Kolmogorov-Smirnov Statistic）
+  - Gini 系数：跟 AUC 有关，公式是 Gini = 2*AUC - 1，常用于信用评分卡。
+  - Lift 值：看在某个客户群里，模型挑出的坏客户比例比随机抽样高多少。
+  - Population Stability Index (PSI)：监控模型是否“漂移”（即样本分布变化太大）。
+  - Brier Score：看预测概率的校准度。
+  - AR（Accuracy Ratio）：跟 Gini 很像，也是衡量排序能力。
 
 ## 2. 数据处理 / Data Processing
 - 数据清洗 / Data Cleaning
